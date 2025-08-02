@@ -1,20 +1,29 @@
 package main
 
 import (
-	"bytes"
+	"commiter/internal/commands"
+	"flag"
 	"fmt"
 	"log/slog"
-	"os/exec"
+	"os"
 )
 
 func main() {
-	cmd := exec.Command("ls")
-	var out bytes.Buffer
-	cmd.Stdout = &out
-	if err := cmd.Run(); err != nil {
-		slog.Error("Error command executing")
-		return
+	args := os.Args[1:]
+	if len(args) == 0 {
+		slog.Error("Expected 'commit' got ''")
+		os.Exit(1)
 	}
-	diff := out.String()
-	fmt.Print(diff)
+	if args[0] != "commit" {
+		slog.Error("Incorrect command. Enter `commaker commit`")
+		os.Exit(1)
+	}
+	// push := flag.Bool(PUSH, false, "Add this flag to push changes to repote repository")
+	lr := flag.String(LOCAL_REPOSITORY_DIRECTORY, commands.GetWorkingDir(), "May be provided only when push flag provided. Mean local repository directory what have to push. If not app will be try push from current directory")
+	// lb := flag.String(LOCAL_BRANCH_NAME, "main", "Local branch that have to be pushed")
+	// rb := flag.String(REMOTE_BRANCH_NAME, "main", "Remote branch for pushing")
+	flag.CommandLine.Parse(args[1:])
+	commands.CheckIsRepo(*lr)
+	changes := commands.GetGitDiff()
+	fmt.Print(changes)
 }
