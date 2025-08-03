@@ -6,12 +6,8 @@ import (
 	"os/exec"
 )
 
-func PushToRemote(branch string) {
-	if branch == "" {
-		branch = DetectCurrentBranch()
-	}
-	args := []string{"push", "origin", branch}
-	cmd := exec.Command("git", args...)
+func PushToRemote() {
+	cmd := exec.Command("git", "push")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {

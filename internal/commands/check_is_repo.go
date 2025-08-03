@@ -6,21 +6,16 @@ import (
 	"path/filepath"
 )
 
-// CheckIsLocalRepo checking that provided directory is git repository and set it as working directory and set it as working directory!
-func CheckIsRepo(repoDir string) {
-	if _, err := os.Stat(repoDir); os.IsNotExist(err) {
-		slog.Error("Got not exsiting repository directory: " + repoDir)
-		os.Exit(1)
-	}
-	matches, err := filepath.Glob(repoDir + "/.git")
+// CheckIsLocalRepo checking that directory is git repository and set it as working directory and set it as working directory!
+func CheckIsRepo() {
+	matches, err := filepath.Glob(".git")
 	if err != nil {
-		slog.Error("Error finding .git in " + repoDir)
+		slog.Error("Error finding .git in directory")
 		os.Exit(1)
 	}
 	if len(matches) < 1 {
-		slog.Error("Not found .git in " + repoDir + ". It is not repository")
+		slog.Error("Current directory is not a git repository")
 		os.Exit(1)
 	}
-	os.Chdir(repoDir)
 	CheckRemoteRepoExists()
 }
