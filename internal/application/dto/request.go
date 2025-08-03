@@ -6,6 +6,6 @@ type RequestData struct {
 }
 
 type Message struct {
-	User    string `json:"user"`
+	Role    string `json:"role"`
 	Content string `json:"content"`
 }

@@ -18,7 +18,7 @@ func GetCommitMessage(gitDiff string) string {
 		Model: os.Getenv("MODEL"),
 		Messages: []dto.Message{
 			dto.Message{
-				User:    "user",
+				Role:    "user",
 				Content: fmt.Sprintf("%s\n%s", prompt, gitDiff),
 			},
 		},
