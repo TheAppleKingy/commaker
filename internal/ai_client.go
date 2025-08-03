@@ -11,13 +11,13 @@ import (
 	"os"
 )
 
-func GetCommitMessage(gitDiff string) (string, error) {
+func GetCommitMessage(gitDiff string) string {
 	data := dto.RequestData{
 		Model: os.Getenv("MODEL"),
 		Messages: []dto.Message{
 			dto.Message{
 				User:    "user",
-				Content: fmt.Sprintf("create commit message based on git diff i'm sending. make it brief and clear. send me only message, no more words. here is the diff:\n%s", gitDiff),
+				Content: fmt.Sprintf("hi! forget the previous context and generate a response as if this is my first message.\nCreate commit message based on git diff i'm sending. message must strictly match this template:\n---start template---\nBrief description of changes\n\nadded:\n- what entities, functions, methods, classes or logic are added etc\n\nremoved:\n- what entities, functions, methods, classes or logic are removed etc\n\nmodified:\n- .what entities, functions, methods, classes or logic are modified etc\n\nmoved:\n- what entities, functions, methods, classes or logic are moved etc\n\nProfit(or brief summary)\n---end of template---\nsend me only filled template, no more words. here is the diff:\n%s", gitDiff),
 			},
 		},
 	}
@@ -58,10 +58,12 @@ func GetCommitMessage(gitDiff string) (string, error) {
 			if ok {
 				commitMessage, ok := message["content"].(string)
 				if ok {
-					return commitMessage, nil
+					return commitMessage
 				}
 			}
 		}
 	}
-	return "", fmt.Errorf("unexpected response body: %s", string(bodyBytes))
+	slog.Error("Unexpected response body:", "invalid body", string(bodyBytes))
+	os.Exit(1)
+	return ""
 }
