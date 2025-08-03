@@ -1,10 +1,9 @@
 package main
 
 import (
-	"commiter/internal"
+	"commiter/internal/application"
 	"commiter/internal/commands"
 	"flag"
-	"fmt"
 	"log/slog"
 	"os"
 )
@@ -25,7 +24,6 @@ func main() {
 	flag.CommandLine.Parse(args[1:])
 	commands.CheckIsRepo(*lr)
 	changes := commands.GetGitDiff()
-	message := internal.GetCommitMessage(changes)
+	message := application.GetCommitMessage(changes)
 	commands.Commit(message)
-	fmt.Print(message)
 }
