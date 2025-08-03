@@ -1,7 +1,8 @@
-package internal
+package application
 
 import (
 	"bytes"
+	"commiter/internal"
 	"commiter/internal/application/dto"
 	"encoding/json"
 	"fmt"
@@ -12,12 +13,13 @@ import (
 )
 
 func GetCommitMessage(gitDiff string) string {
+	prompt := internal.GetPrompt("prompt.template")
 	data := dto.RequestData{
 		Model: os.Getenv("MODEL"),
 		Messages: []dto.Message{
 			dto.Message{
 				User:    "user",
-				Content: fmt.Sprintf("hi! forget the previous context and generate a response as if this is my first message.\nCreate commit message based on git diff i'm sending. message must strictly match this template:\n---start template---\nBrief description of changes\n\nadded:\n- what entities, functions, methods, classes or logic are added etc\n\nremoved:\n- what entities, functions, methods, classes or logic are removed etc\n\nmodified:\n- .what entities, functions, methods, classes or logic are modified etc\n\nmoved:\n- what entities, functions, methods, classes or logic are moved etc\n\nProfit(or brief summary)\n---end of template---\nsend me only filled template, no more words. here is the diff:\n%s", gitDiff),
+				Content: fmt.Sprintf("%s\n%s", prompt, gitDiff),
 			},
 		},
 	}
