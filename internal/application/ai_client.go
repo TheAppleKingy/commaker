@@ -28,7 +28,6 @@ func GetCommitMessage(gitDiff string) string {
 		slog.Error("Encoding error", "error", err)
 		os.Exit(1)
 	}
-	fmt.Print(string(jsonData))
 	request, err := http.NewRequest("POST", os.Getenv("AI_MODEL_HOST"), bytes.NewBuffer(jsonData))
 	if err != nil {
 		slog.Error("Cannot build request", "error", err)
