@@ -28,6 +28,7 @@ func GetCommitMessage(gitDiff string) string {
 		slog.Error("Encoding error", "error", err)
 		os.Exit(1)
 	}
+	fmt.Print(string(jsonData))
 	request, err := http.NewRequest("POST", os.Getenv("AI_MODEL_HOST"), bytes.NewBuffer(jsonData))
 	if err != nil {
 		slog.Error("Cannot build request", "error", err)
@@ -65,7 +66,7 @@ func GetCommitMessage(gitDiff string) string {
 			}
 		}
 	}
-	slog.Error("Unexpected response body:", "invalid body", string(bodyBytes))
+	slog.Error("Unexpected response body", "invalid body", string(bodyBytes))
 	os.Exit(1)
 	return ""
 }

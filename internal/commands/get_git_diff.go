@@ -2,6 +2,7 @@ package commands
 
 import (
 	"bytes"
+	"fmt"
 	"log/slog"
 	"os"
 	"os/exec"
@@ -11,6 +12,7 @@ func GetGitDiff() string {
 	cmd := exec.Command("git", "diff", "--staged")
 	var changes bytes.Buffer
 	cmd.Stdout = &changes
+	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
 		slog.Error("Cannot get code changes", "error", err)
 		os.Exit(1)
@@ -19,5 +21,6 @@ func GetGitDiff() string {
 		slog.Error("No changes staged")
 		os.Exit(1)
 	}
+	fmt.Println(changes.String())
 	return changes.String()
 }

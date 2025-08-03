@@ -12,8 +12,13 @@ import (
 func CheckRemoteRepoExists() {
 	cmd := exec.Command("git", "remote", "-v")
 	var remoteInfo bytes.Buffer
+	var errorMessage bytes.Buffer
 	cmd.Stdout = &remoteInfo
-	cmd.Run()
+	cmd.Stderr = &errorMessage
+	if err := cmd.Run(); err != nil {
+		slog.Error("Error checking remote repo", "error", errorMessage.String())
+		os.Exit(1)
+	}
 	if remoteInfo.String() == "" {
 		slog.Error("Local repository not related with any remote repository")
 		os.Exit(1)
