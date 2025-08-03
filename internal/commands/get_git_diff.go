@@ -2,7 +2,6 @@ package commands
 
 import (
 	"bytes"
-	"fmt"
 	"log/slog"
 	"os"
 	"os/exec"
@@ -21,6 +20,5 @@ func GetGitDiff() string {
 		slog.Error("No changes staged")
 		os.Exit(1)
 	}
-	fmt.Println(changes.String())
 	return changes.String()
 }
