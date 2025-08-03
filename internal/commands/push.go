@@ -7,10 +7,10 @@ import (
 )
 
 func PushToRemote(branch string) {
-	args := []string{"push", "origin", branch}
 	if branch == "" {
-		args = args[:1]
+		branch = DetectCurrentBranch()
 	}
+	args := []string{"push", "origin", branch}
 	cmd := exec.Command("git", args...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
