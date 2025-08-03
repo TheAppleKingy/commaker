@@ -1,7 +1,8 @@
-package internal
+package application
 
 import (
 	"bytes"
+	"commiter/internal"
 	"commiter/internal/application/dto"
 	"encoding/json"
 	"fmt"
@@ -11,13 +12,14 @@ import (
 	"os"
 )
 
-func GetCommitMessage(gitDiff string) (string, error) {
+func GetCommitMessage(gitDiff string) string {
+	prompt := internal.GetPrompt("prompt.template")
 	data := dto.RequestData{
 		Model: os.Getenv("MODEL"),
 		Messages: []dto.Message{
 			dto.Message{
 				User:    "user",
-				Content: fmt.Sprintf("create commit message based on git diff i'm sending. make it brief and clear. send me only message, no more words. here is the diff:\n%s", gitDiff),
+				Content: fmt.Sprintf("%s\n%s", prompt, gitDiff),
 			},
 		},
 	}
@@ -58,10 +60,12 @@ func GetCommitMessage(gitDiff string) (string, error) {
 			if ok {
 				commitMessage, ok := message["content"].(string)
 				if ok {
-					return commitMessage, nil
+					return commitMessage
 				}
 			}
 		}
 	}
-	return "", fmt.Errorf("unexpected response body: %s", string(bodyBytes))
+	slog.Error("Unexpected response body:", "invalid body", string(bodyBytes))
+	os.Exit(1)
+	return ""
 }

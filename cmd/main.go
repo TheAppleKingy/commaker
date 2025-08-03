@@ -1,9 +1,9 @@
 package main
 
 import (
+	"commiter/internal/application"
 	"commiter/internal/commands"
 	"flag"
-	"fmt"
 	"log/slog"
 	"os"
 )
@@ -18,12 +18,15 @@ func main() {
 		slog.Error("Incorrect command. Enter `commaker commit`")
 		os.Exit(1)
 	}
-	// push := flag.Bool(PUSH, false, "Add this flag to push changes to repote repository")
+	push := flag.Bool(PUSH, false, "Add this flag to push changes to repote repository")
 	lr := flag.String(LOCAL_REPOSITORY_DIRECTORY, commands.GetWorkingDir(), "May be provided only when push flag provided. Mean local repository directory what have to push. If not app will be try push from current directory")
-	// lb := flag.String(LOCAL_BRANCH_NAME, "main", "Local branch that have to be pushed")
-	// rb := flag.String(REMOTE_BRANCH_NAME, "main", "Remote branch for pushing")
+	b := flag.String(BRANCH_NAME, "", "Branch that have to be pushed")
 	flag.CommandLine.Parse(args[1:])
 	commands.CheckIsRepo(*lr)
 	changes := commands.GetGitDiff()
-	fmt.Print(changes)
+	message := application.GetCommitMessage(changes)
+	commands.Commit(message)
+	if *push {
+		commands.PushToRemote(*b)
+	}
 }
