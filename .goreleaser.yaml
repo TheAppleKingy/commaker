@@ -1,0 +1,29 @@
+project_name: commaker
+
+builds:
+  - id: default
+    main: ./cmd/main.go
+    binary: commaker
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+
+archives:
+  - format: tar.gz
+    files:
+      - README.md
+
+checksum:
+  name_template: "checksums.txt"
+
+release:
+  github:
+    owner: TheAppleKingy
+    name: commaker
+
