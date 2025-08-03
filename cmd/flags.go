@@ -1,7 +1,6 @@
 package main
 
 const (
-	PUSH                       string = "p"
-	LOCAL_REPOSITORY_DIRECTORY string = "lr"
-	BRANCH_NAME                string = "b"
+	PUSH        string = "p"
+	BRANCH_NAME string = "b"
 )

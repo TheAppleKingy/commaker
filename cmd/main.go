@@ -35,7 +35,7 @@ Examples:
 		os.Exit(0)
 	}
 
-	push := flag.Bool(PUSH, false, "Add this flag to push changes to repote repository")
+	p := flag.Bool(PUSH, false, "Add this flag to push changes to repote repository")
 	b := flag.String(BRANCH_NAME, "", "Branch that have to be pushed")
 	flag.CommandLine.Parse(args[1:])
 	commands.CheckIsRepo()
@@ -45,7 +45,7 @@ Examples:
 	changes := commands.GetGitDiff()
 	message := application.GetCommitMessage(changes)
 	commands.Commit(message)
-	if *push {
+	if *p {
 		commands.PushToRemote()
 	}
 }
