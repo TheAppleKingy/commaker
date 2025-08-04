@@ -30,7 +30,6 @@ Examples:
 		Commit and push to the current branch on origin.`)
 		os.Exit(0)
 	}
-
 	p := flag.Bool("p", false, "Add this flag to push changes to remote repository")
 	flag.CommandLine.Parse(args[1:])
 	commands.CheckIsRepo()
