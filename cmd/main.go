@@ -1,6 +1,7 @@
 package main
 
 import (
+	"commiter/internal"
 	"commiter/internal/application"
 	"commiter/internal/commands"
 	"flag"
@@ -35,8 +36,8 @@ Examples:
 		os.Exit(0)
 	}
 
-	p := flag.Bool(PUSH, false, "Add this flag to push changes to repote repository")
-	b := flag.String(BRANCH_NAME, "", "Branch that have to be pushed")
+	p := flag.Bool(internal.PUSH, false, "Add this flag to push changes to repote repository")
+	b := flag.String(internal.BRANCH_NAME, "", "Branch that have to be pushed")
 	flag.CommandLine.Parse(args[1:])
 	commands.CheckIsRepo()
 	if *b != "" {
