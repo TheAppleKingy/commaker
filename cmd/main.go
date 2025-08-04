@@ -1,7 +1,7 @@
 package main
 
 import (
-	"commiter/internal/application"
+	"commiter/internal"
 	"commiter/internal/commands"
 	"flag"
 	"fmt"
@@ -34,7 +34,7 @@ Examples:
 	flag.CommandLine.Parse(args[1:])
 	commands.CheckIsRepo()
 	changes := commands.GetGitDiff()
-	message := application.GetCommitMessage(changes)
+	message := internal.GetCommitMessage(changes)
 	commands.Commit(message)
 	if *p {
 		commands.PushToRemote()

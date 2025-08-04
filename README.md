@@ -14,23 +14,17 @@ Before using tool, define the following environment variables:
 
 | Variable              | Description                                                                  |
 |-----------------------|------------------------------------------------------------------------------|
-|  OPEN_AI_KEY          | Your API key from the OpenRouter                                        |
-|  MODEL			    | The model identifier (e.g., qwen/qwen3-coder:free)
-|  AI_MODEL_HOST        |The full API URL to the AI chat endpoint                                                    
+|  COMMAKER_AI_API_KEY  | Your API key.                                    
+|  COMMAKER_CONFIG_PATH | Path to the config file.                                                 
 
 
 ---
 
 ## 🚀 Quickstart
 
-1. Create account on OpenRouter - [https://openrouter.ai/](https://openrouter.ai/)
-2. Get API key and set as `OPEN_AI_KEY` env variable.
-3. Set 'https://openrouter.ai/api/v1/chat/completions' at `AI_MODEL_HOST` in env.
-4. Pick a supported model and assign it to the `MODEL` env variable
-(e.g., qwen/qwen3-coder:free)
-5. Download the appropriate binary from the [Releases](https://github.com/TheAppleKingy/commaker/releases) page.
-6. Make the binary executable and add it to your system's `PATH`
-(e.g., move it to /usr/local/bin/ on Linux/macOS).
+1. Get API key to access the model.
+2. Set API key at the environment variable `COMMAKER_AI_API_KEY`.
+3. Create config file '.commaker.yaml' and set it at the environment variable `COMMAKER_CONFIG_PATH`. See config pattern at the project files.
 
 ---
 

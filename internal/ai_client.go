@@ -1,8 +1,7 @@
-package application
+package internal
 
 import (
 	"bytes"
-	"commiter/internal"
 	"fmt"
 	"io"
 	"log/slog"
@@ -13,9 +12,9 @@ import (
 )
 
 func GetCommitMessage(gitDiff string) string {
-	cfg := internal.GetConfig()
-	msg := internal.PROMPT + gitDiff
-	jsonData := internal.BuildRequestJSON(msg)
+	cfg := GetConfig()
+	msg := PROMPT + gitDiff
+	jsonData := BuildRequestJSON(msg)
 	request, err := http.NewRequest("POST", cfg.ProviderAPI, bytes.NewBufferString(jsonData))
 	if err != nil {
 		slog.Error("Cannot build request", "error", err)

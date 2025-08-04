@@ -1,0 +1,15 @@
+#Example for models provider OpenRouter https://openrouter.ai
+provider_api: https://openrouter.ai/api/v1/chat/completions
+
+request_template: |
+  {
+    "model": "qwen/qwen3-coder:free",
+    "messages": [
+        {
+          "role": "user",
+          "content": {{.Message}}
+        }
+    ]
+  }
+
+response_path: choices.0.message.content
