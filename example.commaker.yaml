@@ -1,15 +1,18 @@
 #Example for models provider OpenRouter https://openrouter.ai
+
 provider_api: https://openrouter.ai/api/v1/chat/completions
 
+#kindly set {{.Message}} in the place where a message for model should be
 request_template: |
   {
     "model": "qwen/qwen3-coder:free",
     "messages": [
         {
           "role": "user",
-          "content": {{.Message}}
+          "content": {{.Message}} 
         }
     ]
   }
 
+#indicate path to model's answer in JSON response body
 response_path: choices.0.message.content
