@@ -7,6 +7,7 @@ import (
 	"log/slog"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/tidwall/gjson"
 )
@@ -34,6 +35,10 @@ func GetCommitMessage(gitDiff string) string {
 		slog.Error("Cannot read response body", "error", err)
 		os.Exit(1)
 	}
-	answer := gjson.Get(string(bodyBytes), cfg.ResponsePath)
-	return answer.String()
+	answer := gjson.Get(string(bodyBytes), cfg.ResponsePath).String()
+	startPayloadIndex := strings.Index(answer, "Brief description of changes:\n")
+	if startPayloadIndex == -1 {
+		return answer
+	}
+	return answer[startPayloadIndex:]
 }
