@@ -16,5 +16,5 @@ moved:
 - what entities, functions, methods, classes or logic are moved etc
 Profit(or brief summary)
 
-Your answer must contain only filled template, no more words. Here is the diff:
+Send me only commit message strictly following the template and no more words!. Here is the diff:
 `
