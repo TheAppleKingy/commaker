@@ -7,6 +7,7 @@ import (
 	"log/slog"
 	"net/http"
 	"os"
+	"regexp"
 
 	"github.com/tidwall/gjson"
 )
@@ -34,6 +35,12 @@ func GetCommitMessage(gitDiff string) string {
 		slog.Error("Cannot read response body", "error", err)
 		os.Exit(1)
 	}
-	answer := gjson.Get(string(bodyBytes), cfg.ResponsePath)
-	return answer.String()
+	re := regexp.MustCompile(`(?s)<think>.*?</think>`)
+	answer := gjson.Get(string(bodyBytes), cfg.ResponsePath).String()
+	cleaned := re.ReplaceAllString(answer, "")
+	if cleaned == "" {
+		slog.Error("Commit message was not marshalled", "model answer", string(bodyBytes))
+		os.Exit(1)
+	}
+	return cleaned
 }
