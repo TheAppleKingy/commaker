@@ -7,7 +7,8 @@ import (
 )
 
 func PushToRemote() {
-	cmd := exec.Command("git", "push")
+	currentBranch := GetCurrentBranch()
+	cmd := exec.Command("git", "push", "origin", currentBranch)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
