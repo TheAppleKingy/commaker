@@ -32,7 +32,7 @@ Examples:
 	}
 	p := flag.Bool("p", false, "Add this flag to push changes to remote repository")
 	flag.CommandLine.Parse(args[1:])
-	commands.CheckIsRepo()
+	commands.CheckIsRepo(*p)
 	changes := commands.GetGitDiff()
 	message := internal.GetCommitMessage(changes)
 	commands.Commit(message)
